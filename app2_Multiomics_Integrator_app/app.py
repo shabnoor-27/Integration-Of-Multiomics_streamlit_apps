@@ -34,26 +34,26 @@ with st.sidebar:
 # -----------------------------
 st.header("📁 Upload Omics Data")
 
-genomics = st.file_uploader("Upload 1.cvd_genomics.csv", type="csv")
-transcriptomics = st.file_uploader("Upload cvd_transcriptomics.csv", type="csv")
-proteomics = st.file_uploader("Upload cvd_proteomics.csv", type="csv")
+genomics = st.file_uploader("Upload Final genomics.csv", type="csv")
+transcriptomics = st.file_uploader("Upload Final transcriptomics.csv", type="csv")
+proteomics = st.file_uploader("Upload Final proteomics.csv", type="csv")
 
 
 if genomics:
-    gdf = pd.read_csv("1.cvd_genomics.csv")
+    gdf = pd.read_csv("Final genomics.csv")
     
 if transcriptomics:
-    tdf = pd.read_csv(cvd_transcriptomics.csv)
+    tdf = pd.read_csv(Final transcriptomics.csv)
 
 if proteomics:
-    pdf = pd.read_csv(cvd_proteomics.csv)
+    pdf = pd.read_csv(Final proteomics.csv)
 
 # -----------------------------
 # Sidebar Filters
 # -----------------------------
 st.sidebar.header("⚙️ Settings")
 
-pval_thresh = float(st.sidebar.text_input("Genomics: Max p-value", value="0.05", key="gen_pval"))
+sdFS_thresh = float(st.sidebar.text_input("sdFS Threshold", value="1.0"))
 
 t_pval_thresh = float(st.sidebar.text_input("Transcriptomics: Max p-value", value="0.05", key="tx_pval"))
 log2fc_thresh = float(st.sidebar.text_input("Min |log2FC|", value="1", key="log2fc"))
@@ -75,8 +75,8 @@ st.subheader("🔍 Filtered Data Preview")
 
 if genomics and transcriptomics and proteomics:
     try:
-        gdf_filtered = gdf[gdf['p_value'] >= t_pval_thresh]
-        tdf_filtered = tdf[(tdf['p_value'] <= t_pval_thresh)]
+       gdf_filtered = gdf[gdf['sdFS'] >= sdFS_thresh]
+       tdf_filtered = tdf[(tdf['p_value'] <= t_pval_thresh)]
         
     # Filter Transcriptomics data based on log2FC threshold
         if log2fc_thresh > 0:
@@ -91,11 +91,11 @@ if genomics and transcriptomics and proteomics:
         pdf_filtered = pdf[pdf['Intensity'] >= p_intensity_thresh]
         
         # Display filtered data for all three omics
-        st.markdown("**cvd_genomics.csv**")
+        st.markdown("**Final genomics.csv**")
         st.dataframe(gdf_filtered.head(preview_n))  # Preview the top N filtered rows for genomics
-        st.markdown("**cvd_transcriptomics.csv**")
+        st.markdown("**Final transcriptomics.csv**")
         st.dataframe(tdf_filtered.head(preview_n))  # Preview the top N filtered rows for transcriptomics
-        st.markdown("**cvd_proteomics.csv**")
+        st.markdown("**Final proteomics.csv**")
         st.dataframe(pdf_filtered.head(preview_n))  # Preview the top N filtered rows for proteomics
 
     except Exception as e:
@@ -108,7 +108,7 @@ st.header("🎛️ Filter & Integrate")
 
 if genomics and transcriptomics and proteomics:
     try:
-        gdf_filtered = gdf[gdf['Max p-value'] >= max_pval_thresh]
+        gdf_filtered = gdf[gdf['sdFS'] >= sdFS_thresh]
         tdf_filtered = tdf[(tdf['p_value'] <= t_pval_thresh) & (tdf['log2FC'].abs() >= log2fc_thresh)]
         pdf_filtered = pdf[pdf['Intensity'] >= p_intensity_thresh]
 
