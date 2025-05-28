@@ -34,14 +34,14 @@ with st.sidebar:
 # -----------------------------
 st.header("📁 Upload Omics Data")
 
-genomics = st.file_uploader("Upload cvd_genomics.csv", type="csv")
+genomics = st.file_uploader("Upload cvd_genomics.csv.csv", type="csv")
 transcriptomics = st.file_uploader("Upload cvd_transcriptomics.csv", type="csv")
 proteomics = st.file_uploader("Upload cvd_proteomics.csv", type="csv")
 
 
 if genomics:
-    gdf = pd.read_csv(cvd_genomics.csv)
-
+    gdf = pd.read_csv("cvd_genomics.csv")
+    
 if transcriptomics:
     tdf = pd.read_csv(cvd_transcriptomics.csv)
 
@@ -53,7 +53,7 @@ if proteomics:
 # -----------------------------
 st.sidebar.header("⚙️ Settings")
 
-cadd_thresh = float(st.sidebar.text_input("Min NES Score (cvd_genomics.csv)", value="≥ 1.5"))
+nes_thresh = float(st.sidebar.text_input("Min NES Score (cvd_genomics.csv)", value="≥ 1.5"))
 logfc_thresh = float(st.sidebar.text_input("Min |log2FC| (cvd_transcriptomics.csv)", value="1"))
 t_pval_thresh = float(st.sidebar.text_input("Max p-value (cvd_transcriptomics.csv)", value="0.05"))
 p_intensity_thresh = float(st.sidebar.text_input("Min Intensity (cvd_proteomics.csv)", value="1000"))
@@ -66,7 +66,7 @@ num_pathways_to_show = st.sidebar.slider("Number of Pathways to Display in Netwo
 # -----------------------------
 # Preview Filtered Data: Top N Rows
 # -----------------------------
-preview_n = st.sidebar.slider("Preview Top N Filtered Rows", 5, 50, 10)
+preview_n = st.sidebar.slider("Preview Top N Filtered Rows", 5, 50, 10,100)
 
 # Display Filtered Data Previews
 st.subheader("🔍 Filtered Data Preview")
