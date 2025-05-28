@@ -53,9 +53,7 @@ if proteomics:
 # -----------------------------
 st.sidebar.header("⚙️ Settings")
 
- Genomics filters
-st.sidebar.subheader("🧬 Genomics")
-t_pval_thresh = float(st.sidebar.text_input("Max p-value", value="0.05"))
+cadd_thresh = float(st.sidebar.text_input("Min CADD Score (Genomics)", value="20"))
 
 Transcriptomics filters
 st.sidebar.subheader("🧾 Transcriptomics")
@@ -81,7 +79,7 @@ st.subheader("🔍 Filtered Data Preview")
 
 if genomics and transcriptomics and proteomics:
     try:
-        gdf_filtered = gdf[gdf['p_value'] <= t_pval_thresh)]
+        gdf_filtered = gdf[gdf['CADD'] >= cadd_thresh]
         tdf_filtered = tdf[(tdf['p_value'] <= t_pval_thresh)]
         
     # Filter Transcriptomics data based on log2FC threshold
@@ -114,7 +112,7 @@ st.header("🎛️ Filter & Integrate")
 
 if genomics and transcriptomics and proteomics:
     try:
-        gdf_filtered = gdf[gdf['p_value'] <= t_pval_thresh]
+        gdf_filtered = gdf[gdf['CADD'] >= cadd_thresh]
         tdf_filtered = tdf[(tdf['p_value'] <= t_pval_thresh) & (tdf['log2FC'].abs() >= log2fc_thresh)]
         pdf_filtered = pdf[pdf['Intensity'] >= p_intensity_thresh]
 
