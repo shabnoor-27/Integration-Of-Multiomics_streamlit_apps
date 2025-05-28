@@ -40,7 +40,7 @@ proteomics = st.file_uploader("Upload cvd_proteomics.csv", type="csv")
 
 
 if genomics:
-    gdf = pd.read_csv("cvd_genomics.csv")
+    gdf = pd.read_csv("cvd_genomics.csv.csv")
     
 if transcriptomics:
     tdf = pd.read_csv(cvd_transcriptomics.csv)
