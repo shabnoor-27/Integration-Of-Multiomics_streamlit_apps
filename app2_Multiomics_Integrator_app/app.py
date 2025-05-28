@@ -20,43 +20,43 @@ from matplotlib.colors import Normalize
 # -----------------------------
 # App Configuration
 # -----------------------------
-st.image("https://raw.githubusercontent.com/priyadarshinikp1/Multiomics-Integrator-app/main/logo.png", width=200)
+
 st.title("🧬 Multi-Omics Integration Vizzhy App")
 
 with st.sidebar:
     st.markdown("---")
-    st.markdown("**👨‍💻 Created by: PRIYADARSHINI**")
-    st.markdown("[LinkedIn](https://www.linkedin.com/in/priyadarshini24) | [GitHub](https://github.com/priyadarshinikp1)")
-
+    st.markdown("**👨‍💻 Created by: SHABNOOR**")
+    st.markdown(" [GitHub](https://github.com/shabnoor-27)")
+  
 
 # -----------------------------
 # File Upload Section
 # -----------------------------
 st.header("📁 Upload Omics Data")
 
-genomics = st.file_uploader("Upload Genomics CSV", type="csv")
-transcriptomics = st.file_uploader("Upload Transcriptomics CSV", type="csv")
-proteomics = st.file_uploader("Upload Proteomics CSV", type="csv")
+genomics = st.file_uploader("Upload cvd_genomics.csv", type="csv")
+transcriptomics = st.file_uploader("Upload cvd_transcriptomics.csv", type="csv")
+proteomics = st.file_uploader("Upload cvd_proteomics.csv", type="csv")
 
 
 if genomics:
-    gdf = pd.read_csv(genomics)
+    gdf = pd.read_csv(cvd_genomics.csv)
 
 if transcriptomics:
-    tdf = pd.read_csv(transcriptomics)
+    tdf = pd.read_csv(cvd_transcriptomics.csv)
 
 if proteomics:
-    pdf = pd.read_csv(proteomics)
+    pdf = pd.read_csv(cvd_proteomics.csv)
 
 # -----------------------------
 # Sidebar Filters
 # -----------------------------
 st.sidebar.header("⚙️ Settings")
 
-cadd_thresh = float(st.sidebar.text_input("Min CADD Score (Genomics)", value="20"))
-logfc_thresh = float(st.sidebar.text_input("Min |logFC| (Transcriptomics)", value="1"))
-t_pval_thresh = float(st.sidebar.text_input("Max p-value (Transcriptomics)", value="0.05"))
-p_intensity_thresh = float(st.sidebar.text_input("Min Intensity (Proteomics)", value="1000"))
+cadd_thresh = float(st.sidebar.text_input("Min NES Score (cvd_genomics.csv)", value="≥ 1.5"))
+logfc_thresh = float(st.sidebar.text_input("Min |log2FC| (cvd_transcriptomics.csv)", value="1"))
+t_pval_thresh = float(st.sidebar.text_input("Max p-value (cvd_transcriptomics.csv)", value="0.05"))
+p_intensity_thresh = float(st.sidebar.text_input("Min Intensity (cvd_proteomics.csv)", value="1000"))
 
 run_enrichment = st.sidebar.checkbox("Run Enrichment Analyses", value=True)
 show_network = st.sidebar.checkbox("Show Network Visualization", value=True)
@@ -73,27 +73,27 @@ st.subheader("🔍 Filtered Data Preview")
 
 if genomics and transcriptomics and proteomics:
     try:
-        gdf_filtered = gdf[gdf['CADD'] >= cadd_thresh]
+        gdf_filtered = gdf[gdf['NES'] >= nes_thresh]
         tdf_filtered = tdf[(tdf['p_value'] <= t_pval_thresh)]
         
-    # Filter Transcriptomics data based on logFC threshold
-        if logfc_thresh > 0:
-    # For positive logFC threshold, filter for values >= logFC_thresh
-              tdf_filtered = tdf[tdf['logFC'] >= logfc_thresh]
-        elif logfc_thresh < 0:
-    # For negative logFC threshold, filter for values < logFC_thresh
-              tdf_filtered = tdf[tdf['logFC'] < logfc_thresh]
+    # Filter Transcriptomics data based on log2FC threshold
+        if log2fc_thresh > 0:
+    # For positive log2FC threshold, filter for values >= log2FC_thresh
+              tdf_filtered = tdf[tdf['log2FC'] >= log2fc_thresh]
+        elif log2fc_thresh < 0:
+    # For negative log2FC threshold, filter for values < log2FC_thresh
+              tdf_filtered = tdf[tdf['log2FC'] < log2fc_thresh]
         else:
-    # If logFC_thresh is 0, no filtering needed
+    # If log2FC_thresh is 0, no filtering needed
               tdf_filtered = tdf
         pdf_filtered = pdf[pdf['Intensity'] >= p_intensity_thresh]
         
         # Display filtered data for all three omics
-        st.markdown("**Genomics**")
+        st.markdown("**cvd_genomics.csv**")
         st.dataframe(gdf_filtered.head(preview_n))  # Preview the top N filtered rows for genomics
-        st.markdown("**Transcriptomics**")
+        st.markdown("**cvd_transcriptomics.csv**")
         st.dataframe(tdf_filtered.head(preview_n))  # Preview the top N filtered rows for transcriptomics
-        st.markdown("**Proteomics**")
+        st.markdown("**cvd_proteomics.csv**")
         st.dataframe(pdf_filtered.head(preview_n))  # Preview the top N filtered rows for proteomics
 
     except Exception as e:
@@ -106,8 +106,8 @@ st.header("🎛️ Filter & Integrate")
 
 if genomics and transcriptomics and proteomics:
     try:
-        gdf_filtered = gdf[gdf['CADD'] >= cadd_thresh]
-        tdf_filtered = tdf[(tdf['p_value'] <= t_pval_thresh) & (tdf['logFC'].abs() >= logfc_thresh)]
+        gdf_filtered = gdf[gdf['NES'] >= nes_thresh]
+        tdf_filtered = tdf[(tdf['p_value'] <= t_pval_thresh) & (tdf['log2FC'].abs() >= log2fc_thresh)]
         pdf_filtered = pdf[pdf['Intensity'] >= p_intensity_thresh]
 
         union_genes = set(gdf_filtered['Gene']) | set(tdf_filtered['Gene'])
