@@ -34,13 +34,13 @@ with st.sidebar:
 # -----------------------------
 st.header("📁 Upload Omics Data")
 
-genomics = st.file_uploader("Upload cvd_genomics.csv.csv", type="csv")
+genomics = st.file_uploader("Upload cvd_genomics.csv", type="csv")
 transcriptomics = st.file_uploader("Upload cvd_transcriptomics.csv", type="csv")
 proteomics = st.file_uploader("Upload cvd_proteomics.csv", type="csv")
 
 
 if genomics:
-    gdf = pd.read_csv("cvd_genomics.csv.csv")
+    gdf = pd.read_csv("cvd_genomics.csv")
     
 if transcriptomics:
     tdf = pd.read_csv(cvd_transcriptomics.csv)
@@ -53,10 +53,10 @@ if proteomics:
 # -----------------------------
 st.sidebar.header("⚙️ Settings")
 
-pval_thresh = float(st.sidebar.text_input("Max p-value", value="0.05"))
+pval_thresh = float(st.sidebar.text_input("Genomics: Max p-value", value="0.05", key="gen_pval"))
 
-logfc_thresh = float(st.sidebar.text_input("Min |log2FC|", value="1"))
-t_pval_thresh = float(st.sidebar.text_input("Max p-value", value="0.05"))
+t_pval_thresh = float(st.sidebar.text_input("Transcriptomics: Max p-value", value="0.05", key="tx_pval"))
+log2fc_thresh = float(st.sidebar.text_input("Min |log2FC|", value="1", key="log2fc"))
 
 p_intensity_thresh = float(st.sidebar.text_input("Min Intensity", value="1000"))
 
