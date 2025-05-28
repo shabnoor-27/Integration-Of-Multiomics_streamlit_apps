@@ -53,10 +53,18 @@ if proteomics:
 # -----------------------------
 st.sidebar.header("⚙️ Settings")
 
-nes_thresh = float(st.sidebar.text_input("Min NES Score (cvd_genomics.csv)", value="≥ 1.5"))
-logfc_thresh = float(st.sidebar.text_input("Min |log2FC| (cvd_transcriptomics.csv)", value="1"))
-t_pval_thresh = float(st.sidebar.text_input("Max p-value (cvd_transcriptomics.csv)", value="0.05"))
-p_intensity_thresh = float(st.sidebar.text_input("Min Intensity (cvd_proteomics.csv)", value="1000"))
+ Genomics filters
+st.sidebar.subheader("🧬 Genomics")
+nes_thresh = float(st.sidebar.text_input("Min NES Score", value="1.5"))
+
+Transcriptomics filters
+st.sidebar.subheader("🧾 Transcriptomics")
+logfc_thresh = float(st.sidebar.text_input("Min |log2FC|", value="1"))
+t_pval_thresh = float(st.sidebar.text_input("Max p-value", value="0.05"))
+
+Proteomics filters
+st.sidebar.subheader("🧪 Proteomics")
+p_intensity_thresh = float(st.sidebar.text_input("Min Intensity", value="1000"))
 
 run_enrichment = st.sidebar.checkbox("Run Enrichment Analyses", value=True)
 show_network = st.sidebar.checkbox("Show Network Visualization", value=True)
