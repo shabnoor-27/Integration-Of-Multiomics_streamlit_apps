@@ -55,7 +55,7 @@ st.sidebar.header("⚙️ Settings")
 
  Genomics filters
 st.sidebar.subheader("🧬 Genomics")
-nes_thresh = float(st.sidebar.text_input("Min NES Score", value="1.5"))
+nes_thresh = float(st.sidebar.text_input("Min NES Score", value="0.5"))
 
 Transcriptomics filters
 st.sidebar.subheader("🧾 Transcriptomics")
