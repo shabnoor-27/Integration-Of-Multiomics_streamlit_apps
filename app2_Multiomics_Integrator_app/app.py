@@ -108,7 +108,7 @@ st.header("🎛️ Filter & Integrate")
 
 if genomics and transcriptomics and proteomics:
     try:
-        gdf_filtered = gdf[gdf['Max p-value'] >= Max p-value_thresh]
+        gdf_filtered = gdf[gdf['Max p-value'] >= max_pval_thresh]
         tdf_filtered = tdf[(tdf['p_value'] <= t_pval_thresh) & (tdf['log2FC'].abs() >= log2fc_thresh)]
         pdf_filtered = pdf[pdf['Intensity'] >= p_intensity_thresh]
 
