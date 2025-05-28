@@ -55,13 +55,9 @@ st.sidebar.header("⚙️ Settings")
 
 cadd_thresh = float(st.sidebar.text_input("Min CADD Score (Genomics)", value="20"))
 
-Transcriptomics filters
-st.sidebar.subheader("🧾 Transcriptomics")
 logfc_thresh = float(st.sidebar.text_input("Min |log2FC|", value="1"))
 t_pval_thresh = float(st.sidebar.text_input("Max p-value", value="0.05"))
 
-Proteomics filters
-st.sidebar.subheader("🧪 Proteomics")
 p_intensity_thresh = float(st.sidebar.text_input("Min Intensity", value="1000"))
 
 run_enrichment = st.sidebar.checkbox("Run Enrichment Analyses", value=True)
