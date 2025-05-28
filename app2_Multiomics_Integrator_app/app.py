@@ -34,13 +34,13 @@ with st.sidebar:
 # -----------------------------
 st.header("📁 Upload Omics Data")
 
-genomics = st.file_uploader("Upload cvd_genomics.csv", type="csv")
+genomics = st.file_uploader("Upload 1.cvd_genomics.csv", type="csv")
 transcriptomics = st.file_uploader("Upload cvd_transcriptomics.csv", type="csv")
 proteomics = st.file_uploader("Upload cvd_proteomics.csv", type="csv")
 
 
 if genomics:
-    gdf = pd.read_csv("cvd_genomics.csv")
+    gdf = pd.read_csv("1.cvd_genomics.csv")
     
 if transcriptomics:
     tdf = pd.read_csv(cvd_transcriptomics.csv)
@@ -108,7 +108,7 @@ st.header("🎛️ Filter & Integrate")
 
 if genomics and transcriptomics and proteomics:
     try:
-        gdf_filtered = gdf[gdf['CADD'] >= cadd_thresh]
+        gdf_filtered = gdf[gdf['Max p-value'] >= Max p-value_thresh]
         tdf_filtered = tdf[(tdf['p_value'] <= t_pval_thresh) & (tdf['log2FC'].abs() >= log2fc_thresh)]
         pdf_filtered = pdf[pdf['Intensity'] >= p_intensity_thresh]
 
