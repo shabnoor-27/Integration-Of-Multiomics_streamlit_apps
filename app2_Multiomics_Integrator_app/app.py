@@ -55,7 +55,7 @@ st.sidebar.header("⚙️ Settings")
 
  Genomics filters
 st.sidebar.subheader("🧬 Genomics")
-nes_thresh = float(st.sidebar.text_input("Min NES Score", value="0.5"))
+t_pval_thresh = float(st.sidebar.text_input("Max p-value", value="0.05"))
 
 Transcriptomics filters
 st.sidebar.subheader("🧾 Transcriptomics")
@@ -81,7 +81,7 @@ st.subheader("🔍 Filtered Data Preview")
 
 if genomics and transcriptomics and proteomics:
     try:
-        gdf_filtered = gdf[gdf['NES'] >= nes_thresh]
+        gdf_filtered = gdf[gdf['p_value'] <= t_pval_thresh)]
         tdf_filtered = tdf[(tdf['p_value'] <= t_pval_thresh)]
         
     # Filter Transcriptomics data based on log2FC threshold
@@ -114,7 +114,7 @@ st.header("🎛️ Filter & Integrate")
 
 if genomics and transcriptomics and proteomics:
     try:
-        gdf_filtered = gdf[gdf['NES'] >= nes_thresh]
+        gdf_filtered = gdf[gdf['p_value'] <= t_pval_thresh]
         tdf_filtered = tdf[(tdf['p_value'] <= t_pval_thresh) & (tdf['log2FC'].abs() >= log2fc_thresh)]
         pdf_filtered = pdf[pdf['Intensity'] >= p_intensity_thresh]
 
