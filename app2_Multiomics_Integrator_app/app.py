@@ -34,31 +34,30 @@ with st.sidebar:
 # -----------------------------
 st.header("📁 Upload Omics Data")
 
-genomics = st.file_uploader("Upload Final genomics.csv", type="csv")
-transcriptomics = st.file_uploader("Upload Final transcriptomics.csv", type="csv")
-proteomics = st.file_uploader("Upload Final proteomics.csv", type="csv")
+genomics = st.file_uploader("Upload Genomics CSV", type="csv")
+transcriptomics = st.file_uploader("Upload Transcriptomics CSV", type="csv")
+proteomics = st.file_uploader("Upload Proteomics CSV", type="csv")
 
 
 if genomics:
-    gdf = pd.read_csv("Final genomics.csv")
+    gdf = pd.read_csv(genomics)
     
 if transcriptomics:
-    tdf = pd.read_csv(Final transcriptomics.csv)
+    tdf = pd.read_csv(transcriptomics)
 
 if proteomics:
-    pdf = pd.read_csv(Final proteomics.csv)
+    pdf = pd.read_csv(proteomics)
 
 # -----------------------------
 # Sidebar Filters
 # -----------------------------
 st.sidebar.header("⚙️ Settings")
 
-sdFS_thresh = float(st.sidebar.text_input("sdFS Threshold", value="1.0"))
+sdFS_thresh = float(st.sidebar.text_input("Min sdFS Score (Genomics)", value="1.0"))
+logfc_thresh = float(st.sidebar.text_input("Min |logFC| (Transcriptomics)", value="1"))
+t_pval_thresh = float(st.sidebar.text_input("Max p-value (Transcriptomics)", value="0.05"))
+p_intensity_thresh = float(st.sidebar.text_input("Min Intensity (Proteomics)", value="1000"))
 
-t_pval_thresh = float(st.sidebar.text_input("Transcriptomics: Max p-value", value="0.05", key="tx_pval"))
-log2fc_thresh = float(st.sidebar.text_input("Min |log2FC|", value="1", key="log2fc"))
-
-p_intensity_thresh = float(st.sidebar.text_input("Min Intensity", value="1000"))
 
 run_enrichment = st.sidebar.checkbox("Run Enrichment Analyses", value=True)
 show_network = st.sidebar.checkbox("Show Network Visualization", value=True)
@@ -91,11 +90,11 @@ if genomics and transcriptomics and proteomics:
         pdf_filtered = pdf[pdf['Intensity'] >= p_intensity_thresh]
         
         # Display filtered data for all three omics
-        st.markdown("**Final genomics.csv**")
+        st.markdown("**Genomics**")
         st.dataframe(gdf_filtered.head(preview_n))  # Preview the top N filtered rows for genomics
-        st.markdown("**Final transcriptomics.csv**")
+        st.markdown("**Transcriptomics**")
         st.dataframe(tdf_filtered.head(preview_n))  # Preview the top N filtered rows for transcriptomics
-        st.markdown("**Final proteomics.csv**")
+        st.markdown("**Proteomics**")
         st.dataframe(pdf_filtered.head(preview_n))  # Preview the top N filtered rows for proteomics
 
     except Exception as e:
