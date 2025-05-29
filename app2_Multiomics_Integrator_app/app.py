@@ -76,7 +76,9 @@ if genomics and transcriptomics and proteomics:
     try:
        gdf_filtered = gdf[gdf['sdFS'] >= sdFS_thresh]
        tdf_filtered = tdf[(tdf['p_value'] <= t_pval_thresh)]
-        
+
+     # Filter Genomics data based on sdFS threshold
+        if sdFC_thresh < 0:
     # Filter Transcriptomics data based on log2FC threshold
         if log2fc_thresh > 0:
     # For positive log2FC threshold, filter for values >= log2FC_thresh
@@ -107,7 +109,7 @@ st.header("🎛️ Filter & Integrate")
 
 if genomics and transcriptomics and proteomics:
     try:
-        gdf_filtered = gdf[gdf['sdFS'] >= sdFS_thresh]
+        gdf_filtered = gdf[gdf['sdFS'] <= sdFS_thresh]
         tdf_filtered = tdf[(tdf['p_value'] <= t_pval_thresh) & (tdf['log2FC'].abs() >= log2fc_thresh)]
         pdf_filtered = pdf[pdf['Intensity'] >= p_intensity_thresh]
 
